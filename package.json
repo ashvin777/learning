@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node manager/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "csvjson": "^5.0.0",
+    "csvtojson": "^1.1.9",
     "fs-extra": "^5.0.0",
     "sqlite3": "^3.1.13"
   }
