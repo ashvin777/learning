@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "./node_modules/.bin/electron index.js",
+    "rebuild": "./node_modules/.bin/electron-rebuild",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,8 +14,12 @@
     "body-parser": "^1.18.2",
     "csvjson": "^5.0.0",
     "csvtojson": "^1.1.9",
+    "electron": "^1.7.10",
     "express": "^4.16.2",
     "fs-extra": "^5.0.0",
     "sqlite3": "^3.1.13"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.7.3"
   }
 }
