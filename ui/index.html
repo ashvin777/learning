@@ -1,1 +1,51 @@
-<h1>hello</h1>
+<!doctype html>
+<html ng-app="app">
+  <head>
+
+    <title>iRobotics</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="login/login.css">
+
+    <link rel="stylesheet" href="dashboard/dashboard.css">
+    <link rel="stylesheet" href="reports/reports.css">
+    <link rel="stylesheet" href="shifts/shifts.css">
+    <link rel="stylesheet" href="settings/settings.css">
+
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="bower_components/angular-ui-scroll/dist/ui-scroll.min.js"></script>
+
+    <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bower_components/bootbox.js/bootbox.js"></script>
+  </head>
+
+  <body>
+
+    <header>
+      <img src="irobotics-logo.png"/>
+
+      <!-- <span class="username">
+        <span class="msg">Welcome {{username}}</span>
+        <span class="logout" ng-click="logout()">Logout</span>
+      </span> -->
+
+    </header>
+
+    <ui-view></ui-view>
+
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="login/login.js"></script>
+    <script type="text/javascript" src="dashboard/dashboard.js"></script>
+
+    <script type="text/javascript" src="shifts/shifts.js"></script>
+    <script type="text/javascript" src="settings/settings.js"></script>
+    <script type="text/javascript" src="reports/reports.js"></script>
+
+  </body>
+
+</html>

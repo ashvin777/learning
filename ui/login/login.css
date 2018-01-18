@@ -1,0 +1,15 @@
+.page-login .body{
+  width: 500px;
+  margin: auto;
+
+  position: relative;
+  top: 10%;
+
+  padding: 40px 30px;
+  background: white;
+  border-radius: 5px;
+}
+
+.page-login .body button{
+  margin-top: 50px;
+}

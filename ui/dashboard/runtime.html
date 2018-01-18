@@ -1,0 +1,34 @@
+<div class="page-tab page-tab-runtime">
+
+  <h3 ng-if="!selectedFrame.id" >
+    <span class="text-warning">Please select a frame type before start</span>
+  </h3>
+
+
+  <form class="form-inline">
+
+    <div class="input-group input-group-sm">
+      <div class="input-group-prepend">
+        <label class="input-group-text">Set Frame Type</label>
+      </div>
+      <select class="custom-select custom-select-sm" ng-options="frame.name for frame in frames" ng-model="frame"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-sm" ng-click="setSelectedFrame(frame)">Set Frame</button>
+
+  </form>
+
+
+  <div class="process-status">
+
+    <b>Selected Frame Name - </b>
+    <br/>
+    <h2>{{selectedFrame.name}}</h2>
+    <b>Selected Frame Code - </b>
+    <br/>
+    <h2>{{selectedFrame.number}}</h2>
+
+    <b>Last Frame Dynamic Number</b>
+    <h2>{{getTime(lastLog.timestamp) | date:'MM-dd-yyyy' }}-{{lastLog.shiftnumber}}-{{lastLog.framenumber}}</h2>
+  </div>
+</div>

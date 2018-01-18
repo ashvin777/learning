@@ -1,0 +1,29 @@
+.page-reports{
+  height: calc( 100% - 80px);
+}
+
+.page-reports form{
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.page-reports form > *{
+  margin: 0px 5px;
+}
+
+.page-reports{
+  padding: 20px;
+}
+.page-reports .table{
+  height: calc( 100% - 61px );
+  margin: 0;
+}
+
+.page-reports .table thead{
+
+  background: #feff05;
+  color: black;
+}
+.page-reports .table tbody{
+  height: 100%;
+}

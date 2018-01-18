@@ -1,0 +1,25 @@
+{
+  "name": "public",
+  "homepage": "https://github.com/ashvin777/pilosolapp",
+  "authors": [
+    "ashvin777 <ashvin.suthar777@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.6",
+    "bootstrap": "4",
+    "angular-ui-router": "^1.0.12",
+    "angular-ui-scroll": "^1.7.0",
+    "jquery": "3.2.1",
+    "bootbox.js": "bootbox#^4.4.0"
+  }
+}

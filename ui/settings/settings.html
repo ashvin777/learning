@@ -1,0 +1,80 @@
+<div class="page page-settings">
+
+  <table class="table table-dark table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Frame Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="frame in $ctrl.frames">
+        <td>
+          {{frame.name}}
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="$ctrl.setSelectedFrame(frame)">Set Active Frame</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-dark table-striped table-bordered" ng-class="{disabled: $root.username != 'admin'}">
+    <thead>
+      <tr>
+        <th>Shift Name</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="shift in $ctrl.shifts">
+        <td>{{shift.name}}</td>
+        <td>{{shift.starttime}}</td>
+        <td>{{shift.endtime}}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" ng-click="$ctrl.deleteShift(shift)">Delete</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type="text" class="form-control form-control-sm" ng-model="$ctrl.selectedShift.name" placeholder="Enter shift name...">
+        </td>
+        <td>
+          <input type="time" class="form-control form-control-sm" ng-model="$ctrl.selectedShift.starttime" placeholder="Enter start time...">
+        </td>
+        <td>
+          <input type="time" class="form-control form-control-sm" ng-model="$ctrl.selectedShift.endtime" placeholder="Enter end time...">
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="$ctrl.addShift($ctrl.selectedShift)">Add</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-dark table-striped table-bordered" ng-class="{disabled: $root.username != 'admin'}">
+    <thead>
+      <tr>
+        <th>Frame Name</th>
+        <th>Starting Serial Number</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="frame in $ctrl.frames">
+        <td>
+          {{frame.name}}
+        </td>
+        <td>
+          <input type="text" ng-model="frame.serialstart" class="form-control form-control-sm" placeholder="Enter serial number...">
+        </td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm" ng-click="$ctrl.saveFrameSerial(frame)">Save</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

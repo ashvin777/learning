@@ -1,0 +1,23 @@
+.page-settings{
+  padding: 0 20px;
+  height: calc( 100% - 80px);
+}
+
+.page-settings table{
+  margin-top: 40px;
+}
+
+.page-settings table.disabled{
+  pointer-events: none;
+  position: relative;
+}
+
+.page-settings table.disabled:before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+}

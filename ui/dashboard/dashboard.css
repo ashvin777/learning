@@ -1,0 +1,59 @@
+.page-dashboard {
+  background: white;
+  display: flex;
+  color: white;
+}
+
+.page-dashboard .left-panel {
+  width: 250px;
+  min-width: 250px;
+  font-size: 20px;
+  padding: 20px 0;
+  background: #2f323a;
+  color: white;
+}
+
+.page-dashboard .right-panel{
+  flex: 1;
+  background: #515665;
+}
+
+.page-dashboard .left-panel ul li {
+  flex: 1;
+  padding: 15px 20px;
+  cursor: pointer;
+}
+
+.page-dashboard .left-panel ul li.active {
+  background: #515665;
+  font-weight: bold;
+}
+
+.page-dashboard .left-panel ul li.username {
+  border-bottom: 1px solid #515665;
+  margin-bottom: 10px;
+}
+
+.page-dashboard .left-panel ul li.logout{
+  position: absolute;
+  bottom: 10px;
+  text-decoration: underline;
+  color: #a5a5ff;
+}
+
+.frame{
+  display: flex;
+  background: #6a7080;
+  box-shadow: 0 0 10px #272626;
+}
+
+.frame .group{
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 18px;
+}
+
+.frame .group .title{
+  font-weight: bold;
+  font-size: 20px;
+}

@@ -1,0 +1,130 @@
+html,
+body {
+  font-size: 14px;
+  height: 100%;
+  background: #2f323a;
+  min-width: 1224px;
+}
+
+header {
+  height: 100px;
+  background: white;
+  padding: 10px;
+  box-shadow: 0 0 6px #a0a0a0;
+}
+
+header img{
+	width: 300px;
+}
+
+.page {
+  height: calc( 100% - 100px);
+  min-width: 1124px;
+  overflow: auto;
+}
+
+.table, .table tbody{
+  width: 100%;
+}
+
+.table tr{
+  width: 100%;
+  table-layout: fixed;
+  display: table;
+}
+
+
+.form-title{
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+
+  margin-top: 30px;
+}
+/* 
+
+.page-dashboard .body {
+  width: 100%;
+  padding: 10px;
+}
+
+.page-dashboard table{
+  padding: 0 10px;
+  text-align: center;
+  height: calc( 100% - 89px );
+}
+
+.page-dashboard table tbody{
+  height: calc( 100% - 41px );
+  overflow: auto;
+  display: block;
+}
+
+.tab-pane form {
+  padding: 10px;
+  padding-top: 20px;
+}
+
+.bg-black-light{
+  background: #32383e;
+}
+
+.bg-black-dark{
+  background: #212529;
+}
+
+.page-tab-runtime{
+  text-align: center;
+}
+
+.page-tab-runtime h3{
+  padding: 50px 200px;
+}
+
+.page-tab-runtime form.form-inline{
+  text-align: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.page-tab-runtime form.form-inline button{
+  margin-left: 20px;
+}
+
+.process-status{
+  margin: 50px 0;
+}
+
+#framesettings{
+  text-align: center;
+}
+
+#framesettings form{
+  justify-content: center;
+}
+
+.form-inline{
+  justify-content: center;
+}
+
+
+.username{
+  position: absolute;
+  font-size: 16px;
+  font-weight: normal;
+  bottom: 10px;
+  right: 10px;
+  display: inline-block;
+  height: auto;
+  line-height: normal;
+}
+
+.username .msg{
+  padding-right: 20px;
+}
+
+.username .logout{
+  color: #52a5ff;
+  text-decoration: underline;
+  cursor: pointer;
+} */

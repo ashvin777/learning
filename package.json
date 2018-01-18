@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/electron index.js",
-    "rebuild": "./node_modules/.bin/electron-rebuild",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron index.js",
+    "postinstall": "install-app-deps"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +19,7 @@
     "sqlite3": "^3.1.13"
   },
   "devDependencies": {
+    "electron-builder": "^19.54.0",
     "electron-rebuild": "^1.7.3"
   }
 }

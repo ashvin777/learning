@@ -1,0 +1,67 @@
+<div class="page page-dashboard">
+
+
+  <div class="left-panel">
+
+    <ul class="list-group">
+
+      <li class="username">
+        Welcome {{$ctrl.username}}
+      </li>
+      <li ng-repeat="tab in $ctrl.tabs" ng-class="{ active: $ctrl.current === tab.state }" ng-click="$ctrl.setTab(tab)" ui-sref="{{tab.state}}">
+        {{tab.label}}
+      </li>
+      <li class="logout" ng-click="$ctrl.logout()">
+        Logout
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="right-panel">
+    <div class="frame">
+
+      <div class="group">
+        <div class="title">Frame Name</div>
+        <div class="value">{{$root.selectedFrame.name}}</div>
+      </div>
+
+      <div class="group">
+        <div class="title">Frame Code</div>
+        <div class="value">{{$root.selectedFrame.number}}</div>
+      </div>
+
+      <div class="group">
+        <div class="title">Last Frame Serial Number</div>
+        <div class="value">{{$root.logs[0].framedynamiccode}}</div>
+      </div>
+    </div>
+
+    <ui-view></ui-view>
+  </div>
+
+
+  <!-- <div class="body">
+
+    <div class="tab-content">
+
+      <div class="tab-pane fade show" ng-class="{ active: activeTab.id === 'runtime'}">
+        <ng-include ng-if="activeTab.id === 'runtime'" src="'dashboard/runtime.html'"></ng-include>
+      </div>
+
+      <div class="tab-pane fade show" ng-class="{ active: activeTab.id === 'reports'}">
+        <ng-include ng-if="activeTab.id === 'reports'" src="'dashboard/reports.html'"></ng-include>
+      </div>
+
+      <div class="tab-pane fade show" ng-class="{ active: activeTab.id === 'shifts', disable: username != 'admin'}">
+        <ng-include ng-if="activeTab.id === 'shifts'" src="'dashboard/shifts.html'"></ng-include>
+      </div>
+
+      <div class="tab-pane fade show" ng-class="{ active: activeTab.id === 'framesettings', disable: username != 'admin'}">
+        <ng-include ng-if="activeTab.id === 'framesettings'" src="'dashboard/framesettings.html'"></ng-include>
+      </div>
+
+    </div>
+
+  </div> -->
+</div>

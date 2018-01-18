@@ -1,0 +1,49 @@
+<form class="form-inline">
+
+  <div class="form-group mx-sm-3 mb-2 text-white">
+    Shift Name:
+  </div>
+
+  <div class="form-group mx-sm-3 mb-2">
+    <input type="text" class="form-control form-control-sm" ng-model="selectedShift.name" placeholder="Enter shift name...">
+  </div>
+
+  <div class="form-group mx-sm-3 mb-2 text-white">
+    From:
+  </div>
+
+  <div class="form-group mx-sm-3 mb-2">
+    <input type="time" class="form-control form-control-sm" ng-model="selectedShift.starttime" placeholder="Enter start time...">
+  </div>
+  <div class="form-group mx-sm-3 mb-2 text-white">
+    To:
+  </div>
+  <div class="form-group mx-sm-3 mb-2">
+    <input type="time" class="form-control form-control-sm" ng-model="selectedShift.endtime" placeholder="Enter end time...">
+  </div>
+
+  <button type="submit" class="btn btn-primary mx-sm-3 mb-2 btn-sm" ng-click="addShift(selectedShift)">Add Shift</button>
+</form>
+
+<table class="table table-dark table-striped table-bordered table-sm">
+  <thead>
+    <tr>
+      <!-- <th scope="col">#id</th> -->
+      <th scope="col">Shift Name</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">End Time</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="shift in shifts">
+      <!-- <th scope="row">{{shift.id}}</th> -->
+      <td>{{shift.name}}</td>
+      <td>{{shift.starttime}}</td>
+      <td>{{shift.endtime}}</td>
+      <td>
+        <button class="btn btn-danger btn-sm" ng-click="deleteShift(shift)">Delete Shift</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
