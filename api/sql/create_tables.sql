@@ -17,7 +17,6 @@ CREATE TABLE components (
 );
 
 CREATE TABLE logs (
-	id bigserial NOT NULL,
 	frametype text NOT NULL,
 	framedynamiccode text,
 	framenumber text,
@@ -25,12 +24,11 @@ CREATE TABLE logs (
 	shiftnumber text NOT NULL,
 	processingtime text NOT NULL,
 	status text NOT NULL,
-	timestamp text NOT NULL,
-	PRIMARY KEY (ID)
+	timestamp text NOT NULL
 );
 
 CREATE TABLE shifts (
-	id bigserial NOT NULL,
+	id bigserial auto increment,
 	name text NOT NULL,
 	starttime text NOT NULL,
 	endtime text NOT NULL

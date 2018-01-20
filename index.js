@@ -13,6 +13,8 @@ const express = require('express'),
     MenuItem
   } = require('electron');
 
+require('./api/platform')
+  
 app.on('ready', () => {
 
     let win = new BrowserWindow({

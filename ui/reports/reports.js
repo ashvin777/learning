@@ -30,7 +30,7 @@ function ReportsController($http, $timeout, $rootScope) {
 
   self.getLogs = function () {
     $http.post(BASE_URL + 'sql', {
-      "query": "select * from logs ORDER BY ID DESC"
+      "query": "select * from logs ORDER BY Timestamp DESC"
     }).then(function (logs) {
 
       $timeout(function () {
@@ -110,12 +110,16 @@ function ReportsController($http, $timeout, $rootScope) {
 
   var ws = new WebSocket("ws://localhost:1880/ws/logs");
 
-  ws.onmessage = function (evt) {
-    self.getLogs();
+  ws.onopen = function () {
+    console.log('websokcet openned');
   };
 
-  window.onbeforeunload = function (event) {
-    socket.close();
+  ws.onerror = function (err) {
+    console.log(err);
+  }
+  
+  ws.onmessage = function (evt) {
+    self.getLogs();
   };
 
   self.getLogs();

@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose(),
   fs = require('fs'),
   csvjson = require('csvjson'),
+  localStorage = require('./localstorage'),  
   createSql = fs.readFileSync('./api/sql/create_tables.sql', 'utf8'),
   frames = fs.readFileSync('./data/csv/frames.csv', 'utf8'),
   components = fs.readFileSync('./data/csv/components.csv', 'utf8'),
@@ -25,8 +26,8 @@ db.serialize(function () {
 
   console.log('INFO: Adding Frames Data in FRAMES Table');
 
-  insertIntoTable('frames', frames, (row) => {
-    return `${row.id}, '${row.name}', '${row.number}'`;
+  insertIntoTable('frames', frames, (row) => {  
+    return `${row.id}, '${row.name}', '${row.number}', '${row.address}'`;
   });
 
   insertIntoTable('components', components, (row) => {

@@ -47,7 +47,7 @@ function SettingsController($http, $interval, $timeout, $rootScope) {
     data.endtime = new Date(shift.endtime).toString().slice(16, 21);
 
     $http.post(BASE_URL + 'sql', {
-      query: `insert into shifts(id, name, starttime,endtime) values(5, '${data.name}', '${data.starttime}', '${data.endtime}')`
+      query: `insert into shifts(name, starttime,endtime) values('${data.name}', '${data.starttime}', '${data.endtime}')`
     }).then(function () {
       alert('Shift added successfully');
       self.getShifts();
@@ -62,8 +62,6 @@ function SettingsController($http, $interval, $timeout, $rootScope) {
       self.getShifts();
     });
   }
-
-
 
   self.saveFrameSerial = function (frame) {
     if (!(frame.serialstart >= 0)) {
