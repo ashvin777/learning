@@ -3,7 +3,7 @@ CREATE TABLE frames (
 		name text NOT NULL,
 		number text,
 		serial text,
-		serialStart text,
+		serialstart text,
 		PRIMARY KEY (ID)
 );
 
@@ -11,18 +11,18 @@ CREATE TABLE components (
 	id bigserial NOT NULL,
 	number text,
 	name  text NOT NULL,
-	frameId bigserial REFERENCES frames(id),
+	frameid bigserial REFERENCES frames(id),
 	PRIMARY KEY (ID)
 );
 
 CREATE TABLE logs (
 	id bigserial NOT NULL,
-	frameType text NOT NULL,
-	frameDynamicCode text,
-	frameNumber text,
-	frameComponent text NOT NULL,
-	shiftNumber text NOT NULL,
-	processingTime text NOT NULL,
+	frametype text NOT NULL,
+	framedynamiccode text,
+	framenumber text,
+	framecomponent text NOT NULL,
+	shiftnumber text NOT NULL,
+	processingtime text NOT NULL,
 	status text NOT NULL,
 	timestamp text NOT NULL,
 	PRIMARY KEY (ID)
@@ -31,8 +31,8 @@ CREATE TABLE logs (
 CREATE TABLE shifts (
 	id bigserial NOT NULL,
 	name text NOT NULL,
-	startTime text NOT NULL,
-	endTime text NOT NULL
+	starttime text NOT NULL,
+	endtime text NOT NULL
 );
 
 CREATE TABLE users (

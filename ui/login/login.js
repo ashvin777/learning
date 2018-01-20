@@ -5,12 +5,11 @@ function LoginController($rootScope, $http, $state) {
   self.username = '';
   self.password = '';
   self.isLoginFailed = false;
-  const BASE_URL = '/sql';
 
   self.login = function () {
-    $http.post(BASE_URL, {
-        "query": "select * from users"
-      })
+    $http.post(BASE_URL + 'sql', {
+      "query": "select * from users"
+    })
       .then(self.loginSuccess);
   }
 

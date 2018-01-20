@@ -7,7 +7,7 @@ function SettingsController($http, $interval, $timeout, $rootScope) {
   self.selectedShift = {};
 
   self.getFrames = function () {
-    $http.post(BASE_URL, {
+    $http.post(BASE_URL + 'sql', {
       query: 'select * from frames'
     }).then(function (frames) {
       self.frames = frames.data;
@@ -17,22 +17,23 @@ function SettingsController($http, $interval, $timeout, $rootScope) {
   }
 
   self.getSelectedFrame = function () {
-    $http.get(BASE_URL + 'selectedFrame').then(function (res) {
+    $http.get(BASE_URL + 'storage?key=selectedFrame').then(function (res) {
       $rootScope.selectedFrame = res.data;
     });
   }
 
   self.setSelectedFrame = function (frame) {
     $rootScope.selectedFrame = frame;
-    $http.put(BASE_URL + 'selectedFrame', {
-      selectedFrame: frame
+    $http.post(BASE_URL + 'storage', {
+      key: 'selectedFrame',
+      value: frame
     }).then(function (selectedFrame) {
       alert('Frame set successfully');
     });
   }
 
   self.getShifts = function () {
-    $http.post(BASE_URL, {
+    $http.post(BASE_URL + 'sql', {
       query: 'select * from shifts'
     }).then(function (res) {
       self.shifts = res.data;
@@ -45,8 +46,8 @@ function SettingsController($http, $interval, $timeout, $rootScope) {
     data.starttime = new Date(shift.starttime).toString().slice(16, 21);
     data.endtime = new Date(shift.endtime).toString().slice(16, 21);
 
-    $http.post(BASE_URL, {
-      query: `insert into shifts(id, name, startTime,endTime) values(5, '${data.name}', '${data.starttime}', '${data.endtime}')`
+    $http.post(BASE_URL + 'sql', {
+      query: `insert into shifts(id, name, starttime,endtime) values(5, '${data.name}', '${data.starttime}', '${data.endtime}')`
     }).then(function () {
       alert('Shift added successfully');
       self.getShifts();
@@ -54,8 +55,9 @@ function SettingsController($http, $interval, $timeout, $rootScope) {
   }
 
   self.deleteShift = function (shift) {
-
-    $http.delete(BASE_URL + 'shifts?id=' + shift.id).then(function () {
+    $http.post(BASE_URL + 'sql', {
+      query: 'DELETE FROM SHIFTS WHERE id= ' + shift.id + ';'
+    }).then(function () {
       alert('Shift deleted successfully');
       self.getShifts();
     });
@@ -70,13 +72,15 @@ function SettingsController($http, $interval, $timeout, $rootScope) {
       return;
     }
 
-    $http.post(BASE_URL + 'frame', frame).then((res) => {
+    $http.post(BASE_URL + 'sql', {
+      query: 'UPDATE FRAMES SET serialstart = ' + frame.serialstart + ' WHERE id = ' + frame.id + ';'
+    }).then((res) => {
       alert('Frame updated successfully');
     });
   }
 
   self.getSelectedFrame = function () {
-    $http.get(BASE_URL + 'selectedFrame').then(function (res) {
+    $http.get(BASE_URL + 'storage?key=selectedFrame').then(function (res) {
       self.selectedFrame = res.data;
     });
   }

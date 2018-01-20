@@ -19,7 +19,7 @@ function DashboardController($rootScope, $http, $state) {
   }
 
   self.getSelectedFrame = function () {
-    $http.get(BASE_URL + 'selectedFrame').then(function (res) {
+    $http.get(BASE_URL + 'storage?key=selectedFrame').then(function (res) {
       $rootScope.selectedFrame = res.data;
     });
   }

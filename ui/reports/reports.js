@@ -29,8 +29,8 @@ function ReportsController($http, $timeout, $rootScope) {
   };
 
   self.getLogs = function () {
-    $http.get(BASE_URL + 'logs', {
-      params: self.options
+    $http.post(BASE_URL + 'sql', {
+      "query": "select * from logs ORDER BY ID DESC"
     }).then(function (logs) {
 
       $timeout(function () {
@@ -77,12 +77,12 @@ function ReportsController($http, $timeout, $rootScope) {
 
   self.downloadLogs = function () {
 
+	var timestamp = new Date().getTime();
 
-    bootbox.prompt("Enter the .xlsx file path, for example C:/test.xlsx", function (path) {
-
-      // var path = window.prompt('Enter folder path');
-      // var path = "/Users/ashvin/Documents/Pilosol/pilosolapp/public/test.xlsx";
-
+    bootbox.prompt("Enter the file name", function (name) {
+		
+	  var path = 'E:/' + name + '.xlsx';
+		
       if (path) {
         $http.get(BASE_URL + 'downloadLogs?path=' + path, { params: self.options }).then(function () {
           alert('File save at path ' + path);

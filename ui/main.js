@@ -1,8 +1,8 @@
-const BASE_URL = '/sql';
+const BASE_URL = 'http://localhost:3000/';
 
 angular.module('app', [
-  'ui.router',
-  'ui.scroll'
+    'ui.router',
+    'ui.scroll'
   ])
   .config(($stateProvider, $urlRouterProvider) => {
 
@@ -16,17 +16,17 @@ angular.module('app', [
         url: '/dashboard',
         component: 'dashboardComponent'
       })
-      
+
       .state('dashboard.reports', {
         url: '/reports',
         component: 'reportsComponent'
       })
-      
+
       .state('dashboard.shifts', {
         url: '/shifts',
         component: 'shiftsComponent'
       })
-      
+
       .state('dashboard.settings', {
         url: '/settings',
         component: 'settingsComponent'

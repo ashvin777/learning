@@ -1,11 +1,11 @@
 const sqlite3 = require('sqlite3').verbose(),
   fs = require('fs'),
   csvjson = require('csvjson'),
-  createSql = fs.readFileSync('./api/database/sql/create_tables.sql', 'utf8'),
-  frames = fs.readFileSync('./api/database/data/frames.csv', 'utf8'),
-  components = fs.readFileSync('./api/database/data/components.csv', 'utf8'),
-  users = fs.readFileSync('./api/database/data/users.csv', 'utf8'),
-  db = new sqlite3.Database('./api/database/database.sqlite');
+  createSql = fs.readFileSync('./api/sql/create_tables.sql', 'utf8'),
+  frames = fs.readFileSync('./data/csv/frames.csv', 'utf8'),
+  components = fs.readFileSync('./data/csv/components.csv', 'utf8'),
+  users = fs.readFileSync('./data/csv/users.csv', 'utf8'),
+  db = new sqlite3.Database('./data/database.sqlite');
 
 db.serialize(function () {
 
