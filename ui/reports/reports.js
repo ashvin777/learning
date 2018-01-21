@@ -29,9 +29,21 @@ function ReportsController($http, $timeout, $rootScope) {
   };
 
   self.getLogs = function () {
-    $http.post(BASE_URL + 'sql', {
-      "query": "select * from logs ORDER BY Timestamp DESC"
-    }).then(function (logs) {
+
+    var req = $http.post(BASE_URL + 'sql', {
+      'query': 'select * from logs ORDER BY Timestamp DESC'
+    });
+
+    if (self.searchBy !== 'none') {
+      req = $http.post(BASE_URL + 'sql', {
+        query: `SELECT * FROM LOGS
+        WHERE 
+        ${self.searchBy} LIKE '%${self.searchString}%'
+        ORDER BY TIMESTAMP DESC`
+      })
+    }
+
+    req.then(function (logs) {
 
       $timeout(function () {
         $rootScope.logs = [];
@@ -77,15 +89,59 @@ function ReportsController($http, $timeout, $rootScope) {
 
   self.downloadLogs = function () {
 
-	var timestamp = new Date().getTime();
+    var timestamp = new Date().getTime();
 
-    bootbox.prompt("Enter the file name", function (name) {
-		
-	  var path = 'E:/' + name + '.xlsx';
-		
+    bootbox.prompt('Enter the file name', function (name) {
+
+      var path = 'E:/' + name + '.xlsx';
+
       if (path) {
-        $http.get(BASE_URL + 'downloadLogs?path=' + path, { params: self.options }).then(function () {
-          alert('File save at path ' + path);
+
+        var filterData = self.searchBy !== 'none';
+
+        var req = $http.post(BASE_URL + 'sql', {
+          'query': 'select * from logs ORDER BY Timestamp DESC'
+        });
+
+        if (filterData) {
+          req = $http.post(BASE_URL + 'sql', {
+            query: `SELECT * FROM LOGS
+          WHERE 
+          ${self.searchBy} LIKE '%${self.searchString}%'
+          ORDER BY TIMESTAMP DESC`
+          })
+        }
+
+        req.then(res => {
+          let logs = [];
+          var from = new Date(new Date(new Date(new Date(self.searchStartTime).setHours(23)).setMinutes(59)).setSeconds(59));
+          var to = new Date(new Date(new Date(new Date(self.searchEndTime).setHours(23)).setMinutes(59)).setSeconds(59));
+
+          res.data.forEach((log) => {
+            var current = 0;
+
+            current = new Date(log.timestamp).getTime();
+            if (!filterData || (current >= from && current <= to)) {
+              logs.push({
+                'ID': log.id,
+                'FRAME TYPE': log.frametype,
+                'FRAME SERIAL NUMBER': log.framedynamiccode,
+                'COMPONENT': log.framecomponent,
+                'SHIFT': log.shiftnumber,
+                'STATUS': log.status,
+                'TIMESTAMP': log.timestamp
+              });
+            }
+          });
+
+          console.log(logs);
+
+          $http.post('http://localhost:1880/excel', {
+            path: path,
+            logs: logs
+          }).then(function () {
+            alert('File save at path ' + path);
+          });
         });
       }
     });
@@ -108,7 +164,7 @@ function ReportsController($http, $timeout, $rootScope) {
   }
 
 
-  var ws = new WebSocket("ws://localhost:1880/ws/logs");
+  var ws = new WebSocket('ws://localhost:1880/ws/logs');
 
   ws.onopen = function () {
     console.log('websokcet openned');
@@ -117,7 +173,7 @@ function ReportsController($http, $timeout, $rootScope) {
   ws.onerror = function (err) {
     console.log(err);
   }
-  
+
   ws.onmessage = function (evt) {
     self.getLogs();
   };

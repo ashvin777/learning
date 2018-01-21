@@ -45,7 +45,7 @@ class Modbus {
     console.log('Fetching data...')
     this.getDataFromTable('frames')
       .then(res => this.frames = res)
-      .then(this.getDataFromTable.bind(this, 'components'))
+      .then(this.getDataFromTableComponents.bind(this, 'components'))
       .then(res => this.components = res)
       .then(this.getDataFromTable.bind(this, 'shifts'))
       .then(res => this.shifts = res)
@@ -159,6 +159,14 @@ class Modbus {
   getDataFromTable(table) {
     return new Promise(res => {
       db.all(`select * from ${table}`, (err, rows) => {
+        res(rows);
+      });
+    })
+  }
+
+  getDataFromTableComponents(table) {
+    return new Promise(res => {
+      db.all(`select * from ${table} where frameid = ${this.selectedFrame.id}`, (err, rows) => {
         res(rows);
       });
     })

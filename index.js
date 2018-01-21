@@ -24,7 +24,7 @@ app.on('ready', () => {
       },
       title: "Pilosol App",
       fullscreenable: true,
-      width: 1224,
+      width: 1424,
       height: 968,
       icon: path.join(__dirname + "/icons/64x64.png")
     });
