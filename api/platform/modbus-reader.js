@@ -1,7 +1,8 @@
 var WebSocket = require('ws'),
   db = require('../db'),
   localStorage = require('../localstorage'),
-  client = require('./modbus-client');
+  client = require('./modbus-client'),
+  serialport = require('./serialport-client');
 
 class Modbus {
 
@@ -12,7 +13,7 @@ class Modbus {
     this.isLogging = false;
 
     setInterval(() => {
-      if(this.isLogging == false){
+      if (this.isLogging == false) {
         //client.readCoils - irobotics
         client.readDiscreteInputs(client.params.address, client.params.quantity, (err, data) => {
           if (err) {
@@ -23,6 +24,8 @@ class Modbus {
           this.onMessage(data.data);
         });
       }
+      this.onMessage(data);
+
     }, 1000);
 
   }
@@ -96,7 +99,7 @@ class Modbus {
             shiftnumber: this.getShift(),
             processingtime: "",
             status: signals[index] === true ? "PRESENT" : "ABSENT",
-            timestamp: new Date(new Date().getTime() + index*1000),
+            timestamp: new Date(new Date().getTime() + index * 1000),
             framedynamiccode: this.getFrameCode(new Date(), frameSerial)
           });
         } else if (!isValid && signals[index] == false) {
@@ -109,7 +112,7 @@ class Modbus {
             shiftnumber: this.getShift(),
             processingtime: "",
             status: signals[index] === true ? "PRESENT" : "ABSENT",
-            timestamp: new Date(new Date().getTime() + index*1000),
+            timestamp: new Date(new Date().getTime() + index * 1000),
             framedynamiccode: '---'
           });
         }
@@ -124,18 +127,26 @@ class Modbus {
       //console.log(this.logs);
       this.logs.forEach(this.addLogsIntoTable.bind(this));
 
-      if(isValid){
+      if (isValid) {
+
         let hex = this.generateHex();
+
         console.log(hex);
-        
+
+        serialport.write(hex, function (err) {
+          if (err) {
+            return console.log('Error on write: ', err.message);
+          }
+        });
+
         this.isLogging = true;
-        setTimeout(() =>{
-          client.writeCoil(client.params.markingDoneAddress, true, function(err, data){
+        setTimeout(() => {
+          client.writeCoil(client.params.markingDoneAddress, true, function (err, data) {
             console.log(err, data);
           });
         }, 1000);
 
-        setTimeout(() =>{
+        setTimeout(() => {
           client.writeCoil(client.params.markingDoneAddress, false, () => {
             this.isLogging = false;
           });

@@ -24,9 +24,6 @@
 
 //     });
 // }, 2000);
-
-var SerialPort = require('serialport');
-var port = new SerialPort('COM4');
  
 port.write('main screen turn on', function(err) {
   if (err) {
