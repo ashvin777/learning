@@ -144,7 +144,7 @@ class Modbus {
   generateHex() {
 
     let lastLogs = JSON.parse(localStorage.getItem('lastLogs'));
-    let hex = '';//hex_to_ascii("1B");
+    let hex = this.hex_to_ascii("1B");
     let str = '';
     str += hex + "M001;" + hex + "B000;" + hex + "U";
     //data
@@ -154,6 +154,14 @@ class Modbus {
       
     this.ws.send(str);
     this.wsLogs.send('{ "id": 10}');
+  }
+  
+  hex_to_ascii(hexx) {
+    var hex = hexx.toString();//force conversion
+    var str = '';
+    for (var i = 0; i < hex.length; i += 2)
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    return str;
   }
 
   getDataFromTable(table) {
