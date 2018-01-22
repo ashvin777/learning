@@ -1,7 +1,7 @@
-var waitForPort = require('wait-for-port'),
-  WebSocket = require('ws'),
+var WebSocket = require('ws'),
   db = require('../db'),
-  localStorage = require('../localstorage');
+  localStorage = require('../localstorage'),
+  client = require('./modbus-client');
 
 class Modbus {
 
@@ -9,22 +9,20 @@ class Modbus {
     this.prevStopSignal = false;
     this.ws = null;
     this.selectedFrame = {};
-    waitForPort('localhost', 1880, this.nodeRedActivated.bind(this));
+
+    setInterval(() => {
+
+      client.readDiscreteInputs(client.params.address, client.params.quantity, (err, data) => {
+        if (err) {
+          console.log("ERROR-modbuse-reader:", err);
+          return;
+        }
+        this.onMessage(data.data);
+      });
+    }, 1000);
   }
 
-  nodeRedActivated() {
-    this.ws = new WebSocket('ws://localhost:1880/ws/modbus');
-    this.wsLogs = new WebSocket('ws://localhost:1880/ws/logs');
-
-    this.ws.on('open', open => {
-      console.log('modbus-reader connected...');
-    });
-
-    this.ws.on('message', this.onMessage.bind(this));
-  }
-
-  onMessage(message) {
-    let signals = JSON.parse(message);
+  onMessage(signals) {
     let stopSignal = signals[1];
     let selectedFrame = JSON.parse(localStorage.getItem("selectedFrame"));
 
@@ -59,6 +57,8 @@ class Modbus {
     //data signal starting form 16
     signals = signals.splice(16, this.frames.length);
 
+    console.log("SHIFT:", this.getShift());
+    console.log("SERIAL:", this.getFrameSerial());
     if (this.getShift() && this.getFrameSerial() > 0) {
 
       console.log('Generating logs... shift and frame serial is valid');
@@ -116,28 +116,29 @@ class Modbus {
   }
 
   addLogsIntoTable(log) {
+    console.log(log);
     db.all(`INSERT INTO logs (
-            frametype,
-            framenumber,
-            framecomponent,
-            shiftnumber,
-            processingtime,
-            status,
-            timestamp,
-            framedynamiccode
-          )
-
-          VALUES (
-
-          '${log.frametype}',
-          '${log.framenumber}',
-          '${log.framecomponent}',
-          '${log.shiftnumber}',
-          '${log.processingtime}',
-          '${log.status}',
-          '${log.timestamp}',
-          '${log.framedynamiccode}'
-          )`
+                frametype,
+                framenumber,
+                framecomponent,
+                shiftnumber,
+                processingtime,
+                status,
+                timestamp,
+                framedynamiccode
+              )
+    
+              VALUES (
+    
+              '${log.frametype}',
+              '${log.framenumber}',
+              '${log.framecomponent}',
+              '${log.shiftnumber}',
+              '${log.processingtime}',
+              '${log.status}',
+              '${log.timestamp}',
+              '${log.framedynamiccode}'
+              )`
     );
   }
 
@@ -148,19 +149,19 @@ class Modbus {
     let str = '';
     str += hex + "M001;" + hex + "B000;" + hex + "U";
     //data
-    str += lastLogs[0].framedynamiccode + ";" ;
-   //ending 
+    str += lastLogs[0].framedynamiccode + ";";
+    //ending 
     str += hex + "Z;";
-      
-    this.ws.send(str);
-    this.wsLogs.send('{ "id": 10}');
+
+    //this.ws.send(str);
+    //this.wsLogs.send('{ "id": 10}');
   }
-  
+
   hex_to_ascii(hexx) {
     var hex = hexx.toString();//force conversion
     var str = '';
     for (var i = 0; i < hex.length; i += 2)
-        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+      str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
     return str;
   }
 

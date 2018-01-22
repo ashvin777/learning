@@ -1,3 +1,4 @@
+
 const sqlite3 = require('sqlite3').verbose(),
   fs = require('fs'),
   csvjson = require('csvjson'),
@@ -12,19 +13,19 @@ db.serialize(function () {
 
   let sqlStatments = createSql.split(';')
 
-  console.log('INFO: Create Tables');
+  //console.log('INFO: Create Tables');
   sqlStatments.forEach((sql) => {
 
     db.all(sql, {}, (err, row) => {
       if (err) {
-        console.info('INFO: Database create failed. Seems database is already installed');
+       // console.info('INFO: Database create failed. Seems database is already installed');
         return;
       }
     });
 
   });
 
-  console.log('INFO: Adding Frames Data in FRAMES Table');
+  //console.log('INFO: Adding Frames Data in FRAMES Table');
 
   insertIntoTable('frames', frames, (row) => {  
     return `${row.id}, '${row.name}', '${row.number}', '${row.address}'`;

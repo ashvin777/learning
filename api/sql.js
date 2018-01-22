@@ -3,7 +3,7 @@ const db = require('./db');
 module.exports = function (req, res) {
 
   let query = req.body.query;
-  console.log(query);
+  //console.log(query);
 
   db.all(query, (err, rows) => {
     if (err) {

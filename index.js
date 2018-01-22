@@ -7,9 +7,7 @@ const express = require('express'),
   exec = require('child_process').exec,
   listenPort = 3000;
 
-exec('node-red --userDir ./configs');
-
-require('./api/platform')
+require('./api/platform');
   
 express()
   .use(bodyParser.urlencoded({
