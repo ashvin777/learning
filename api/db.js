@@ -13,6 +13,10 @@ db.serialize(function () {
 
   let sqlStatments = createSql.split(';')
 
+  db.all("delete from frames");
+  db.all("delete from components");
+  db.all("delete from users");
+
   //console.log('INFO: Create Tables');
   sqlStatments.forEach((sql) => {
 

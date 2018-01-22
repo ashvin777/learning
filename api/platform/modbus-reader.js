@@ -9,17 +9,22 @@ class Modbus {
     this.prevStopSignal = false;
     this.ws = null;
     this.selectedFrame = {};
+    this.isLogging = false;
 
     setInterval(() => {
-
-      client.readDiscreteInputs(client.params.address, client.params.quantity, (err, data) => {
-        if (err) {
-          console.log("ERROR-modbuse-reader:", err);
-          return;
-        }
-        this.onMessage(data.data);
-      });
+      if(this.isLogging == false){
+        //client.readCoils - irobotics
+        client.readDiscreteInputs(client.params.address, client.params.quantity, (err, data) => {
+          if (err) {
+            console.log("ERROR-modbuse-reader:", err);
+            return;
+          }
+          //console.log("---\n"+JSON.stringify(data.data));
+          this.onMessage(data.data);
+        });
+      }
     }, 1000);
+
   }
 
   onMessage(signals) {
@@ -55,10 +60,11 @@ class Modbus {
   generateLogs(signals, selectedFrame) {
     console.log('Generating logs...')
     //data signal starting form 16
-    signals = signals.splice(16, this.frames.length);
+    signals = signals.splice(16, this.components.length);
 
     console.log("SHIFT:", this.getShift());
     console.log("SERIAL:", this.getFrameSerial());
+
     if (this.getShift() && this.getFrameSerial() > 0) {
 
       console.log('Generating logs... shift and frame serial is valid');
@@ -71,11 +77,17 @@ class Modbus {
         frameSerial = frameSerial - 1;
       }
 
+      //hardcode
+      //isValid = true;
+
+      console.log('isValid sceneario...', isValid);
+
       this.logs = [];
 
       this.components.forEach((comp, index) => {
+        //console.log(isValid, signals[index]);
         if (isValid && index == 0) {
-          console.log('Valid sceneario...', this.getShift());
+          //console.log('Valid sceneario...', this.getShift());
           this.logs.push({
             frametype: selectedFrame ? selectedFrame.name : '',
             framenumber: isValid ? frameSerial : '---',
@@ -84,11 +96,11 @@ class Modbus {
             shiftnumber: this.getShift(),
             processingtime: "",
             status: signals[index] === true ? "PRESENT" : "ABSENT",
-            timestamp: new Date(),
+            timestamp: new Date(new Date().getTime() + index*1000),
             framedynamiccode: this.getFrameCode(new Date(), frameSerial)
           });
         } else if (!isValid && signals[index] == false) {
-          console.log('Invalid sceneario...');
+          //console.log('Invalid sceneario...');
           this.logs.push({
             frametype: selectedFrame ? selectedFrame.name : '',
             framenumber: isValid ? frameSerial : '---',
@@ -97,7 +109,7 @@ class Modbus {
             shiftnumber: this.getShift(),
             processingtime: "",
             status: signals[index] === true ? "PRESENT" : "ABSENT",
-            timestamp: new Date(),
+            timestamp: new Date(new Date().getTime() + index*1000),
             framedynamiccode: '---'
           });
         }
@@ -109,14 +121,31 @@ class Modbus {
       localStorage.setItem('selectedFrame', JSON.stringify(this.selectedFrame));
 
       //add log into table
+      //console.log(this.logs);
       this.logs.forEach(this.addLogsIntoTable.bind(this));
 
-      this.generateHex();
+      if(isValid){
+        let hex = this.generateHex();
+        console.log(hex);
+        
+        this.isLogging = true;
+        setTimeout(() =>{
+          client.writeCoil(client.params.markingDoneAddress, true, function(err, data){
+            console.log(err, data);
+          });
+        }, 1000);
+
+        setTimeout(() =>{
+          client.writeCoil(client.params.markingDoneAddress, false, () => {
+            this.isLogging = false;
+          });
+        }, 5000);
+      }
     }
   }
 
   addLogsIntoTable(log) {
-    console.log(log);
+    //console.log(log);
     db.all(`INSERT INTO logs (
                 frametype,
                 framenumber,
@@ -153,7 +182,7 @@ class Modbus {
     //ending 
     str += hex + "Z;";
 
-    //this.ws.send(str);
+    return str;
     //this.wsLogs.send('{ "id": 10}');
   }
 

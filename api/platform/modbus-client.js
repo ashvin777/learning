@@ -10,9 +10,12 @@ client.connectRTUBuffered("COM4", {
     stopBits: 1
 });
 
+//client.setTimeout(10000);
+
 client.params = {
     address: 1024,
-    quantity: 10
+    quantity: 100,
+    markingDoneAddress: 1280
 };
 
 module.exports = client;
